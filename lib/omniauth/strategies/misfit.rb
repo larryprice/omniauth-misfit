@@ -4,8 +4,7 @@ require 'multi_json'
 module OmniAuth
   module Strategies
     class Misfit < OmniAuth::Strategies::OAuth2
-
-      DEFAULT_SCOPE = 'public,birthday,email'
+      DEFAULT_SCOPE = 'public'
 
       option :name, 'misfit'
 
@@ -38,6 +37,10 @@ module OmniAuth
       def request_phase
         options[:authorize_params] = client_params.merge(options[:authorize_params])
         super
+      end
+
+      def callback_url
+        full_host + script_name + callback_path
       end
 
       def auth_hash
